@@ -43,7 +43,7 @@ import java.util.function.Consumer;
 @Configuration
 //points on to data repositories
 @EnableJpaRepositories("${data.repositories}")
-//note: first ComponentScan points to indispensable entity/transaction management
+//note: first ComponentScan points to  entity/transaction management, it is not a compulsory part,so it can be a dummy
 //second component scan points to customized dao services
 @ComponentScans({@ComponentScan("${jta.config.path}"), @ComponentScan("${dao.services}"),@ComponentScan("${jta.config.view.safe}")})
 public class CommonJPAConfigAndSwitch {
