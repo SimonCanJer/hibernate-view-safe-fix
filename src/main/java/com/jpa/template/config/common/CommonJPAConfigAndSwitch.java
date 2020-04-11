@@ -46,7 +46,7 @@ import java.util.function.Consumer;
 //note: first ComponentScan points to indispensable entity/transaction management
 //second component scan points to customized dao services
 @ComponentScans({@ComponentScan("${jta.config.path}"), @ComponentScan("${dao.services}"),@ComponentScan("${jta.config.view.safe}")})
-public class CommonJPAConfigSwitch {
+public class CommonJPAConfigAndSwitch {
     static class TransactionNotifier {
         Consumer<EntityTransaction> resume;
         BiConsumer<EntityTransaction, Exception> compensator;
@@ -92,7 +92,7 @@ public class CommonJPAConfigSwitch {
             @Override
             public void activateCloseInterception(Consumer<EntityManager> compensator) {
                 interceptionFlag.set(true);
-                CommonJPAConfigSwitch.this.closeSink.set(compensator);
+                CommonJPAConfigAndSwitch.this.closeSink.set(compensator);
 
             }
 
@@ -194,7 +194,7 @@ public class CommonJPAConfigSwitch {
 
             private Object proxyInterceptor(EntityManagerFactory bean) {
 
-                return Proxy.newProxyInstance(CommonJPAConfigSwitch.class.getClassLoader(), new Class[]{EntityManagerFactory.class}, new InvocationHandler() {
+                return Proxy.newProxyInstance(CommonJPAConfigAndSwitch.class.getClassLoader(), new Class[]{EntityManagerFactory.class}, new InvocationHandler() {
                     @Override
                     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
                         Object res = method.invoke(bean, args);
@@ -208,11 +208,12 @@ public class CommonJPAConfigSwitch {
 
                     private Object decorateEntityManager(EntityManager em) {
 
-                        return Proxy.newProxyInstance(CommonJPAConfigSwitch.class.getClassLoader(), new Class[]{EntityManager.class}, new InvocationHandler() {
+                        return Proxy.newProxyInstance(CommonJPAConfigAndSwitch.class.getClassLoader(), new Class[]{EntityManager.class}, new InvocationHandler() {
                             @Override
                             public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
                                 if (INTERCEPT_FLAG_VALUE.equals(interceptionFlag.get())) {
+                                    //on close first call
                                     if (method.getName().equals("close")) {
                                         Consumer<EntityManager> consume =closeSink.get();
                                         closeSink.remove();

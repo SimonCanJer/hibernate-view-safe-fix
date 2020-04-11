@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
-@Table(name = "note")
+@Table(name = "note",uniqueConstraints = {@UniqueConstraint(columnNames="id"),@UniqueConstraint(columnNames = "userId")})
+
 public class Note {
 
 
@@ -23,7 +24,8 @@ public class Note {
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
-
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     @Column(unique=true,nullable = false)
     public String getUserId() {

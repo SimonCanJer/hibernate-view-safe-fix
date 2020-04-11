@@ -40,7 +40,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-public class JPATransactionManagement extends CommonConfig {
+public class ConfigJPATransactionManagement extends CommonConfig {
 
 
  static class DriverDataSourceWrapper extends DriverManagerDataSource implements ICommonDSSetup

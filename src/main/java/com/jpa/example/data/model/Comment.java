@@ -27,7 +27,7 @@ public class Comment {
     LocalDate date;
     String content;
     @ManyToOne
-    @JoinColumn(name="note_id")
+    @JoinColumn(name="userId")
     @Fetch(FetchMode.SELECT)
     Note about;
 

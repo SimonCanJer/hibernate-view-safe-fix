@@ -22,7 +22,7 @@ import java.io.IOException;
  *
  * */
 @Configuration
-public class ConfigEntityTransactionFinal {
+public class ConfigEntityManagementFinalization {
     @Autowired
     ITransactionInterceptionManagement interceptionManagement;
     @Bean
