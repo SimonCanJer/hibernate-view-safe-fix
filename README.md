@@ -5,7 +5,7 @@ The project represents and  demonstrates an interestig approach to fixing  LazyI
 - But anyway, either we use Spring's data repositories (by extending JpaRepository, when Spring builds underlaying worklfow), or when we use EntityManagher directly, Spring initializes and uses any EntityManagerFactoryBean's interface implementer, which produces EntityManager (JPA staff).
   Spring  JpaRepositories uses EntityManager on lower level of its interfaces methods execution and it closes it
    after related method of JpaRepository have been called. Closing the entity manager leads to closing Hibernate session.  The same mess will
-    be happened in EJB when trying use the retuende data objects on View level.
+    be happened in EJB when trying use the returned  entities on View level.
    Anyway, after EntityManageris closes underlaying Hibernate session is closed also and all proxy objects are detached and any attempt to of operation, which requires a database hit will cause laxy initialation exception
     Reattachment is a worst of can be done because kills performance of databases.
  Another approach uses tricks of Hibernate JPA definition (see https://thoughts-on-java.org/LazyInitializationexception/?ck_subscriber_id=662673854).
